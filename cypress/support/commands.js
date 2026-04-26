@@ -23,3 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+// Cypress.Commands.add('login', (username, password) => { 
+//     cy.get('#user-name').should('be.visible').type(username);
+//     cy.get('#password').should('be.visible').type(password);
+//     cy.get('#login-button').should('be.visible').click();
+// })
+
+
+Cypress.Commands.add("login", (email, password) => {
+  cy.visit("https://guest:welcome2qauto@qauto.forstudy.space/");
+
+  cy.contains("button", "Sign In").click();
+
+  cy.get("#signinEmail").clear().type(email);
+  cy.get("#signinPassword").clear().type(password);
+
+  cy.get(".modal-footer .btn-primary").click();
+});
