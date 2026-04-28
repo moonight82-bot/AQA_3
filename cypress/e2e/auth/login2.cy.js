@@ -1,21 +1,16 @@
-import loginPage from "../../pages/LoginPage";
+import LoginPage from "../../pages/LoginPage";
 
-let userData
+let userData;
 
-describe('Login to SauceDemo', () => {
-    beforeEach(() => {
-        loginPage.visit();
-        cypress.fixtures('user').then((data) => {
-            userData = data;
-        });
-    })
-    
-    it('valid login', () => {
+describe("Login to SauceDemo ", () => {
+  beforeEach(() => {
+    LoginPage.open();
+    cy.fixture("user").then((data) => {
+      userData = data;
+    });
+  });
 
-       cypress.login(
-            userData.validUser.username,
-            userData.validUser.password
-        )
-
-    })
-})
+  it("Positiv Login", () => {
+    cy.login(userData.validUser.username, userData.validUser.password);
+  });
+});

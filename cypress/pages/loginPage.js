@@ -1,79 +1,68 @@
-class SignUpPage {
+import BasePage from "./BasePage";
+
+class LoginPage extends BasePage {
   selectors = {
-    signUpButton: ".hero-descriptor_btn",
-
-    modalTitle: ".modal-title",
-
-    nameInput: "#signupName",
-    lastNameInput: "#signupLastName",
-    emailInput: "#signupEmail",
-    passwordInput: "#signupPassword",
-    repeatPasswordInput: "#signupRepeatPassword",
-
-    registerButton: ".modal-footer .btn-primary",
+    usernameInput: "#user-name",
+    passwordInput: "#password",
+    loginButton: "#login-button",
+    errorMessage: '[data-test="error"]',
   };
 
-  openRegistrationForm() {
-    cy.get(this.selectors.signUpButton).click();
+  open() {
+    cy.visit("/");
+  }
+  /*
+  getUserNameInput() {
+    return cy.get(this.selectors.usernameInput);
   }
 
-  checkRegistrationTitle() {
-    cy.get(this.selectors.modalTitle)
-      .should("be.visible")
-      .and("contain", "Registration");
+  getPasswordInput() {
+    return cy.get(this.selectors.passwordInput);
   }
 
-  typeName(value) {
-    cy.get(this.selectors.nameInput).clear().type(value).blur();
+  getLoginButton() {
+    return cy.get(this.selectors.loginButton);
   }
 
-  typeLastName(value) {
-    cy.get(this.selectors.lastNameInput).clear().type(value).blur();
+  getErrorMessage() {
+    return cy.get(this.selectors.errorMessage);
   }
 
-  typeEmail(value) {
-    cy.get(this.selectors.emailInput).clear().type(value).blur();
+  typeUserName(username) {
+    this.getUserNameInput().clear().type(username);
   }
 
-  typePassword(value) {
-    cy.get(this.selectors.passwordInput).clear().type(value).blur();
+  typePassword(password) {
+    this.getPasswordInput().clear().type(password);
   }
 
-  typeRepeatPassword(value) {
-    cy.get(this.selectors.repeatPasswordInput).clear().type(value).blur();
+  clickLoginButton() {
+    this.getLoginButton().click();
+  } */
+
+  login(username, password) {
+    /*this.typeUserName(username);
+     this.typePassword(password);
+     this.clickLoginButton(); */
+    this.type(this.selectors.usernameInput, username);
+    this.type(this.selectors.passwordInput, password);
+    this.click(this.selectors.loginButton);
   }
 
-  blurField(selector) {
-    cy.get(selector).focus().blur();
+  verifiOpenLoginPage() {
+    /* this.getUserNameInput().should("be.visible");
+    this.getPasswordInput().should("be.visible");
+    this.getLoginButton().should("be.visible"); */
+
+    this.shouldBeVisible(this.selectors.usernameInput);
+    this.shouldBeVisible(this.selectors.passwordInput);
+    this.shouldBeVisible(this.selectors.loginButton);
   }
 
-  checkError(inputSelector, errorText) {
-    cy.get(inputSelector)
-      .parents(".form-group")
-      .find(".invalid-feedback")
-      .should("be.visible")
-      .and("contain", errorText);
-  }
-
-  checkRedBorder(inputSelector) {
-    cy.get(inputSelector).should(
-      "have.css",
-      "border-color",
-      "rgb(220, 53, 69)",
-    );
-  }
-
-  checkRegisterButtonDisabled() {
-    cy.get(this.selectors.registerButton).should("be.disabled");
-  }
-
-  checkRegisterButtonEnabled() {
-    cy.get(this.selectors.registerButton).should("be.enabled");
-  }
-
-  clickRegisterButton() {
-    cy.get(this.selectors.registerButton).click();
+  verifyErrorMessage(text) {
+    // this.getErrorMessage().should("be.visible").and("contain.text", text);
+    this.shouldContainText(this.selectors.errorMessage, text);
   }
 }
 
-export default new SignUpPage();
+export default new LoginPage();

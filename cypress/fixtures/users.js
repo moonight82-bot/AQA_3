@@ -10,8 +10,7 @@ export const user = {
   },
 
   invalidUser: {
-    username: "invalid_user",
-    password: "invalid_password",
+    username: "invalod_user",
+    password: "invalod_pass",
   },
-  
 };

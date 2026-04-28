@@ -14,12 +14,21 @@ describe("Login to SauceDemo ", () => {
   it("Invalid Login", () => {
     LoginPage.login(user.invalidUser.username, user.invalidUser.password);
 
-    LoginPage.getErrorMessage(
+    LoginPage.verifyErrorMessage(
       "Epic sadface: Username and password do not match any user in this service",
     );
   });
-});
 
-cy.get('a["href=youtube.com"]')
-  .should("be.visible")
-  .and("include", "youtube.com");
+  it("ENV CONFIG Login", () => {
+    cy.env(["username", "password"]).then((env) => {
+      LoginPage.login(env.username, env.password);
+    });
+  });
+
+  it(" JSON CONFIG Login", () => {
+    const username = Cypress.env("username");
+    const password = Cypress.env("password");
+
+    LoginPage.login(username, password);
+  });
+});
