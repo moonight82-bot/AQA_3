@@ -1,44 +1,35 @@
-class SignInForm {
+import BasePage from "./BasePage";
+
+class SignInForm extends BasePage {
   selectors = {
+    signInButton: ".header_signin",
     emailInput: "#signinEmail",
     passwordInput: "#signinPassword",
     logInButton: ".modal-footer .btn-primary",
   };
 
-  openLogInForm() {
-    cy.contains("button", "Sign In").click();
+  open() {
+    this.click(this.selectors.signInButton);
   }
 
-  checkLogInTitle() {
-    cy.contains("Log in").should("be.visible");
+  fillEmail(email) {
+    this.type(this.selectors.emailInput, email);
   }
 
-  typeEmail(value) {
-    cy.get(this.selectors.emailInput).clear().type(value);
+  fillPassword(password) {
+    this.type(this.selectors.passwordInput, password);
   }
 
-  typePassword(value) {
-    cy.get(this.selectors.passwordInput).clear().type(value);
-  }
-
-  clickLogInButton() {
-    cy.get(this.selectors.logInButton).click();
-  }
-
-  checkLogInButtonEnabled() {
-    cy.get(this.selectors.logInButton).should("be.enabled");
-  }
-
-  checkLogInButtonDisabled() {
-    cy.get(this.selectors.logInButton).should("be.disabled");
+  submit() {
+    this.click(this.selectors.logInButton);
   }
 
   login(email, password) {
-    this.typeEmail(email);
-    this.typePassword(password);
-    this.checkLogInButtonEnabled();
-    this.clickLogInButton();
+    this.open();
+    this.fillEmail(email);
+    this.fillPassword(password);
+    this.submit();
   }
 }
 
-export default new SignInForm();
+export default SignInForm;
