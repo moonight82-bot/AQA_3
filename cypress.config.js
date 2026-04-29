@@ -1,49 +1,38 @@
 const { defineConfig } = require("cypress");
 
 const environments = {
-  test: {
-    baseUrl: "https://www.saucedemo.com",
+  firstenv: {
+    baseUrl: "https://qauto.forstudy.space/",
+    email: "client_for_study@testinator.com",
+    password: "Qwerty123!",
   },
-  stage: {
-    baseUrl: "https://www.saucedemo2.com",
-  },
-  prod: {
-    baseUrl: "https://www.saucedemo3.com",
+  secondenv: {
+    baseUrl: "https://qauto2.forstudy.space/",
+    email: "client_for_study3@testinator.com",
+    password: "Trewq1234",
   },
 };
 
+const envName = process.env.TEST_ENV || "firstenv";
+const activeEnv = environments[envName];
+
 module.exports = defineConfig({
-  allowCypressEnv: false,
-
-  // reporter: "cypress-mochawesome-reporter",
-  // reporterOptions: {
-  //   reportDir: "cypress/reports",
-  //   charts: true,
-  //   reportPageTitle: "SauceDemo Test Report",
-  //   embeddedScreenshots: true,
-  //   inlineAssets: true,
-  //   saveAllAttempts: false,
-  // },
-
   e2e: {
-    viewportHeight: 1366,
-    viewportWidth: 768,
-    defaultCommandTimeout: 6000,
-    video: true,
-    screenshotOnRunFailure: true,
+    baseUrl: activeEnv.baseUrl,
 
-    setupNodeEvents(on, config) {
-      const envName = config.env.environment || "test";
+    env: {
+      email: activeEnv.email,
+      password: activeEnv.password,
+    },
 
-      const selectedEnv = environments[envName];
-
-      if (!selectedEnv) {
-        throw new Error(`Environment "${envName}" not found`);
-      }
-
-      config.baseUrl = selectedEnv.baseUrl;
-
-      return config;
+    // optional
+    reporter: "cypress-mochawesome-reporter",
+    reporterOptions: {
+      charts: true,
+      reportPageTitle: "custom-title",
+      embeddedScreenshots: true,
+      inlineAssets: true,
+      saveAllAttempts: false,
     },
   },
 });

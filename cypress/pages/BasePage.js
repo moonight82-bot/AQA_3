@@ -1,7 +1,7 @@
 class BasePage {
-    visit(patch = '/') {
-        cy.visit(patch);
-    }
+    // visit(patch = '/') {
+    //     cy.visit(patch);
+    // }
 
 getElement(selector) {
     return cy.get(selector);        
